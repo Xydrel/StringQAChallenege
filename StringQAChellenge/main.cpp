@@ -32,6 +32,9 @@ int main()
 
 int runTests()
 {
+	/*
+		Validating the construction of a string from a const char*
+	*/
 	{
 		MyString result("a");
 		auto compare = result == "a";
@@ -41,6 +44,17 @@ int runTests()
 
 	//...TODO: Add more tests
 
+	/*
+		Validate the copy construction from other string results in a string the same as the initial string
+	*/
+	{
+		MyString string1("test1");
+		MyString string2(string1);
+		auto compare = string1 == string2;
+		std::cout << "Validate copy construction: " << (int)compare << std::endl;
+		CHECK("Testing MyString copy construction from other string: expected: Succeeded | result: ", string1 == string2);
+	}
+	
 	/*
 		Validate the default constructor is initializing an empty MyString type
 	*/
@@ -69,14 +83,18 @@ int runTests()
 	}
 
 	/*
-		Validate the copy construction from other string results in a string the same as the initial string
+		Validate Empty returns true when the string is empty and false when not empty
 	*/
 	{
-		MyString string1("test1");
-		MyString string2(string1);
-		auto compare = string1 == string2;
-		std::cout << "Validate copy construction: " << (int)compare << std::endl;
-		CHECK("Testing Copy Construction from other string: expected: Succeeded | result: ", string1 == string2);
+		MyString emptyTest;
+		auto compare = emptyTest.empty() == true;
+		std::cout << "Validate new empty is empty: " << (int)compare << std::endl;
+		CHECK("Testing MyString empty initilization of string is empty: expected: Succeeded | result: ", emptyTest.empty() == true);
+	}
+
+	// TODO: write clear test case
+	{
+
 	}
 
 	/*
@@ -92,8 +110,26 @@ int runTests()
 
 
 	/*
-		Validate Empty returns true when the string is empty and false when not empty
+		Validate assignment operator overload from string literal
 	*/
+	{
+		MyString fromLiteralTest;
+		fromLiteralTest = "literal";
+		auto compare = fromLiteralTest == "literal";
+		std::cout << "Validate from literal assignment: " << (int)compare << std::endl;
+		CHECK("Testing MyString assigned from literal is the literal: expected: Succeeded | result: ", fromLiteralTest == "literal");
+	}
+
+	/*
+		Validate assignment operator overload from MyString type value
+	*/
+	{
+		MyString fromMyStrnTest;
+		fromMyStrnTest = MyString("mystring");
+		auto compare = fromMyStrnTest == "mystring";
+		std::cout << "Validate from literal assignment: " << (int)compare << std::endl;
+		CHECK("Testing MyString assigned from MyString is the MyString value: expected: Succeeded | result: ", fromMyStrnTest == "mystring");
+	}
 
 	std::cout << "Test runs complete..." << std::endl;
 
