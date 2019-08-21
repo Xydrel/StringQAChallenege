@@ -13,18 +13,33 @@
             return 1; \
     }
 
+//Forward declares-------------------------------------------------------------
+int runTests();
+
 
 //Main-------------------------------------------------------------------------
 int main()
 {
-    {
-        MyString result("a");
-        auto compare = result == "a";
-        std::cout << "Compare result: " << (int)compare << std::endl;
-        CHECK("Testing MyString construction with string literal: expected: Succeeded | result: ", result == "a");
-    }
+	std::cout << "Starting test runs..." << std::endl;
 
-    //...TODO: Add more tests
+	runTests();
+
+	std::cout << "Hit a key to exit test application..." << std::endl;
+	std::cin.get();
+
+    return 0;
+}
+
+int runTests()
+{
+	{
+		MyString result("a");
+		auto compare = result == "a";
+		std::cout << "Compare result: " << (int)compare << std::endl;
+		CHECK("Testing MyString construction with string literal: expected: Succeeded | result: ", result == "a");
+	}
+
+	//...TODO: Add more tests
 
 	/*
 		Validate the default constructor is initializing an empty MyString type
@@ -60,8 +75,11 @@ int main()
 	}
 
 
-	std::cout << "Hit a key to exit test application..." << std::endl;
-	std::cin.get();
+	/*
+		Validate Empty returns true when the string is empty and false when not empty
+	*/
 
-    return 0;
+	std::cout << "Test runs complete..." << std::endl;
+
+	return 1;
 }
