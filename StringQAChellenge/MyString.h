@@ -1,5 +1,14 @@
 #pragma once
 
+/*
+	Overall for a string object the choices here seem reasonable to me aside from the usage
+	of C style allocations and frees of memory. 
+
+	I would also have included at least one more overloaded operator !=. 
+
+	I also found 2 bugs in the concatenation operator overloads which I corrected.
+*/
+
 
 //Includes---------------------------------------------------------------------
 #include <string>

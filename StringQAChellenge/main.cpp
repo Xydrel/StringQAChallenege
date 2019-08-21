@@ -36,10 +36,25 @@ int runTests()
 		Validating the construction of a string from a const char*
 	*/
 	{
-		MyString result("a");
-		auto compare = result == "a";
-		std::cout << "Compare result: " << (int)compare << std::endl;
-		CHECK("Testing MyString construction with string literal: expected: Succeeded | result: ", result == "a");
+		MyString literalConstructTest("a");
+		{
+			auto compare = literalConstructTest == "a";
+			std::cout << "Compare result: " << (int)compare << std::endl;
+			CHECK("Testing MyString construction with string literal: expected: Succeeded | result: ", literalConstructTest == "a");
+		}
+		/* Ensuring that the length is 1 as expected */
+		{
+			const int expectedStrLen = 1;
+			auto compare = literalConstructTest.length() == expectedStrLen;
+			std::cout << "Validate length is 1:  " << (int)compare << std::endl;
+			CHECK("Testing MyString length returns 1 after single char construction: expected: Succeeded | result: ", literalConstructTest.length() == expectedStrLen);
+		}
+		/* Ensuring that the string is not empty as expected */
+		{
+			auto compare = literalConstructTest.empty() == false;
+			std::cout << "Validate empty is true:  " << (int)compare << std::endl;
+			CHECK("Testing MyString empty returns false after single char construction: expected: Succeeded | result: ", literalConstructTest.empty() == false);
+		}
 	}
 
 	//...TODO: Add more tests
@@ -50,9 +65,24 @@ int runTests()
 	{
 		MyString string1("test1");
 		MyString string2(string1);
-		auto compare = string1 == string2;
-		std::cout << "Validate copy construction: " << (int)compare << std::endl;
-		CHECK("Testing MyString copy construction from other string: expected: Succeeded | result: ", string1 == string2);
+		{
+			auto compare = string1 == string2;
+			std::cout << "Validate copy construction: " << (int)compare << std::endl;
+			CHECK("Testing MyString copy construction from other string: expected: Succeeded | result: ", string1 == string2);
+		}
+		/* Ensuring that the length is 5 as expected */
+		{
+			const int expectedStrLen = 5;
+			auto compare = string2.length() == expectedStrLen;
+			std::cout << "Validate length is 1:  " << (int)compare << std::endl;
+			CHECK("Testing MyString length returns 5 after copy construction: expected: Succeeded | result: ", string2.length() == expectedStrLen);
+		}
+		/* Ensuring that the string is not empty as expected */
+		{
+			auto compare = string2.empty() == false;
+			std::cout << "Validate empty is true:  " << (int)compare << std::endl;
+			CHECK("Testing MyString empty returns false after copy construction: expected: Succeeded | result: ", string2.empty() == false);
+		}
 	}
 	
 	/*
@@ -137,19 +167,98 @@ int runTests()
 		CHECK("Testing MyString assigned from MyString is the MyString value: expected: Succeeded | result: ", fromMyStrnTest == "mystring");
 	}
 
-	// TODO: test literal concat
+	/*
+		Validate literal equality logical operator overload
+	*/
+	{
+		MyString literalCompTest("testpass");
+		const char* cStr = "testpass";
+		auto compare = literalCompTest == cStr;
+		std::cout << "Validate C string against MyString equality: " << (int)compare << std::endl;
+		CHECK("Test MyString value equality against C string: expected: Succeeded | result: ", literalCompTest == cStr);
+	}
 
-	// TODO: test literal append concat
+	/*
+		Validate MyString equality logical operator overload
+	*/
+	{
+		MyString myCompStr1Test("testpass");
+		MyString myCompStr2test("testpass");
+		auto compare = myCompStr1Test == myCompStr2test;
+		std::cout << "Validate MyString against MyString equality: " << (int)compare << std::endl;
+		CHECK("Test MyString value equality against MyString: expected: Succeeded | result: ", myCompStr1Test == myCompStr2test);
+	}
 
-	// TODO: test MyString concat
+	/*
+		Validate return of new string from MyString and literal string
+	*/
+	{
+		MyString literalConcatTest("test");
+		MyString resultStr = literalConcatTest + "pass";
+		auto compare = resultStr == "testpass";
+		std::cout << "Validate literal concatenation: " << (int)compare << std::endl;
+		CHECK("Test MyString literal concatenation to new string: expected: Succeeded | Result: ", resultStr == "testpass");
+	}
 
-	// TODO: test MyString append concat
+	/*
+		Validation of concatenation of MyString and literal string operator directly
+	*/
+	{
+		MyString literalConcatTest("test");
+		literalConcatTest += "pass";
+		auto compare = literalConcatTest == "testpass";
+		std::cout << "Validate literal concatenation: " << (int)compare << std::endl;
+		CHECK("Test MyString and literal concatenation to this string: expected: Succeeded | Result: ", literalConcatTest == "testpass");
+	}
 
-	// TODO: test to c string
+	/*
+		Validate return of new string from MyString and MyString
+	*/
+	{
+		MyString concatTest("test");
+		MyString resultStr = concatTest + MyString("pass");
+		auto compare = resultStr == "testpass";
+		std::cout << "Validate literal concatenation: " << (int)compare << std::endl;
+		CHECK("Test MyString concatenation to new MyString: expected: Succeeded | Result: ", resultStr == "testpass");
+	}
 
-	// TODO: test to std::string
+	/*
+		Validation of concatenation of MyString and MyString operator directly
+	*/
+	{
+		MyString concatTest("test");
+		concatTest += MyString("pass");
+		auto compare = concatTest == "testpass";
+		std::cout << "Validate literal concatenation: " << (int)compare << std::endl;
+		CHECK("Test MyString and MyString concatenation to this string: expected: Succeeded | Result: ", concatTest == "testpass");
+	}
+
+	/*
+		Validate that the MyString can return a C style string
+	*/
+	{
+		MyString cReturnTest("testpass");
+		const char* cStr = cReturnTest.c_str();
+		const char* testString = "testpass";
+		auto compare = strcmp(cStr, testString) == 0;
+		std::cout << "Validate C style string return: " << (int)compare << std::endl;
+		CHECK("Test MyString return of C style string: expected: Succeeded | Result: ", strcmp(cStr, testString) == 0);
+	}
+
+	/*
+		Validate that the MyString can return a std::string
+	*/
+	{
+		MyString stdStrReturnTest("testpass");
+		std::string retStr = stdStrReturnTest.toString();
+		std::string testStr = "testpass";
+		auto compare = testStr == retStr;
+		std::cout << "Validate std string return: " << (int)compare << std::endl;
+		CHECK("Test MyString return of std string: expected: Succeeded | Result: ", testStr == retStr);
+	}
 
 	std::cout << "Test runs complete..." << std::endl;
+	std::string  temp;
 
 	return 1;
 }
