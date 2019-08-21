@@ -45,11 +45,27 @@ int runTests()
 		Validate the default constructor is initializing an empty MyString type
 	*/
 	{
+		std::cout << "Validating empty construction of MyString type" << std::endl;
 		MyString emptyConstTest;
-		const int expectedEmptyStringLen = 0;
-		auto compare = emptyConstTest.length() <= expectedEmptyStringLen;
-		std::cout << "Validate Empty Constructed string:  " << (int)compare << std::endl;
-		CHECK("Testing MyString Empty construction: expected: Succeeded | result: ", emptyConstTest.length() <= expectedEmptyStringLen);
+		/* Validating that the string is nullptr */
+		{
+			auto compare = emptyConstTest == nullptr;
+			std::cout << "Validate for nullptr:  " << (int)compare << std::endl;
+			CHECK("Testing MyString is nullptr construction: expected: Succeeded | result: ", emptyConstTest == nullptr);
+		}
+		/* Ensuring that the length is 0 as expected */
+		{
+			const int expectedStrLen = 0;
+			auto compare = emptyConstTest.length() == expectedStrLen;
+			std::cout << "Validate length is 0:  " << (int)compare << std::endl;
+			CHECK("Testing MyString length returns 0 after construction: expected: Succeeded | result: ", emptyConstTest.length() == expectedStrLen);
+		}
+		/* Ensuring that the string is empty as expected */
+		{
+			auto compare = emptyConstTest.empty() == true;
+			std::cout << "Validate empty is true:  " << (int)compare << std::endl;
+			CHECK("Testing MyString empty returns true after construction: expected: Succeeded | result: ", emptyConstTest.empty() == true);
+		}
 	}
 
 	/*
