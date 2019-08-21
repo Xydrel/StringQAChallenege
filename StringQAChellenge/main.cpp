@@ -38,6 +38,17 @@ int main()
 	}
 
 	/*
+		Validate the copy construction from other string results in a string the same as the initial string
+	*/
+	{
+		MyString string1("test1");
+		MyString string2(string1);
+		auto compare = string1 == string2;
+		std::cout << "Validate copy construction: " << (int)compare << std::endl;
+		CHECK("Testing Copy Construction from other string: expected: Succeeded | result: ", string1 == string2);
+	}
+
+	/*
 		Validate that the length method is returning the correct size value
 	*/
 	{
