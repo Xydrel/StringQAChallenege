@@ -59,7 +59,7 @@ int runTests()
 		Validate the default constructor is initializing an empty MyString type
 	*/
 	{
-		std::cout << "Validating empty construction of MyString type" << std::endl;
+		std::cout << "Validating default construction of MyString type" << std::endl;
 		MyString emptyConstTest;
 		/* Validating that the string is nullptr */
 		{
@@ -89,12 +89,18 @@ int runTests()
 		MyString emptyTest;
 		auto compare = emptyTest.empty() == true;
 		std::cout << "Validate new empty is empty: " << (int)compare << std::endl;
-		CHECK("Testing MyString empty initilization of string is empty: expected: Succeeded | result: ", emptyTest.empty() == true);
+		CHECK("Testing MyString empty method returns empty when MyString is empty: expected: Succeeded | result: ", emptyTest.empty() == true);
 	}
 
-	// TODO: write clear test case
+	/*
+		Validate the the clear method appropriately clears the objects data member to nullptr
+	*/
 	{
-
+		MyString clearTest("clearme!");
+		clearTest.clear();
+		auto compare = clearTest == nullptr;
+		std::cout << "Validate clear method: " << (int)compare << std::endl;
+		CHECK("Testing MyString clear method clears string value: expected: Succeeded | result: ", clearTest == nullptr);
 	}
 
 	/*
@@ -130,6 +136,18 @@ int runTests()
 		std::cout << "Validate from literal assignment: " << (int)compare << std::endl;
 		CHECK("Testing MyString assigned from MyString is the MyString value: expected: Succeeded | result: ", fromMyStrnTest == "mystring");
 	}
+
+	// TODO: test literal concat
+
+	// TODO: test literal append concat
+
+	// TODO: test MyString concat
+
+	// TODO: test MyString append concat
+
+	// TODO: test to c string
+
+	// TODO: test to std::string
 
 	std::cout << "Test runs complete..." << std::endl;
 
