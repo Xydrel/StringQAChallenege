@@ -48,9 +48,23 @@ void MyString::clear()
     }
 }
 
+/*
+	This method was attempting to return the length of _s property 
+	without performing any validation on it which can result in attempting
+	to access uninitialized property and causing application execution halt.
+	Te method now performs a validation on the property for nullptr and returns
+	0 if the property is nullptr.
+*/
 size_t MyString::length() const
 {
-    return strlen(_s);
+	if (_s != nullptr)
+	{
+		return strlen(_s);
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 MyString& MyString::operator = (const char* other)
