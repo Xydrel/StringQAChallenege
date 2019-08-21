@@ -15,18 +15,36 @@ MyString::~MyString()
         free(_s);
 }
 
+/*
+	Added validation on the other input as the call to 
+	operator = is additional work to allocate memory for the 
+	string which is not needed since an empty or null value 
+	is being passed in.
+*/
 MyString::MyString(const char* other)
 {
     _s = nullptr;
 
-    operator = (other);
+	if (other != nullptr)
+	{
+		operator = (other);
+	}
 }
 
+/*
+	Added validation on the other input for empty as the call to
+	operator = is additional work to allocate memory for the
+	string which is not needed since an empty or null value
+	is being passed in.
+*/
 MyString::MyString(const MyString& other)
 {
     _s = nullptr;
 
-    operator = (other);
+	if (!other.empty())
+	{
+		operator = (other);
+	}
 }
 
 const char* MyString::c_str() const
@@ -93,59 +111,116 @@ MyString& MyString::operator = (const MyString& other)
     return *this;
 }
 
+/*
+	Added a validation on the input before attempting to operate on it 
+	to prevent application halt or unexpected termination.
+*/
 bool MyString::operator == (const char* other) const
 {
-    auto otherLength = strlen(other);
-    return length() == otherLength && memcmp(_s, other, length()) == 0;
+	if (length() > 0 && other != nullptr)
+	{
+		auto otherLength = strlen(other);
+		return length() == otherLength && memcmp(_s, other, length()) == 0;
+	}
+	else if (length() <= 0 && other == nullptr)
+	{
+		return true;
+	}
+
+	return false;
 }
 
+/*
+	Added validation on the other input for empty as well as a test for 
+	if this string is empty and the other string is empty true is 
+	returned because both strings are effectively the same.
+*/
 bool MyString::operator == (const MyString& other) const
 {
-    return length() == other.length() && memcmp(_s, other._s, length()) == 0;
+	if (!other.empty())
+	{
+		return length() == other.length() && memcmp(_s, other._s, length()) == 0;
+	}
+	else if (this->empty() && other.empty())
+	{
+		return true;
+	}
+
+	return false;
 }
 
+/*
+	Adding validation on the input as to not perform construction procedures when not needed
+*/
 MyString MyString::operator + (const char* other) const
 {
-    MyString copy(*this);
-    copy += other;
-    return copy;
+	if (other != nullptr)
+	{
+		MyString copy(*this);
+		copy += other;
+		return copy;
+	}
+
+	return *this;
 }
 
+/*
+	Added validation to other input as there are operations performed on it which can result
+	with application execution halt or unexpected termination.
+*/
 MyString& MyString::operator += (const char* other)
 {
-    auto currentLength = length();
-    auto otherLength = strlen(other);
-    auto newLength = currentLength + otherLength;
+	if (other != nullptr)
+	{
+		auto currentLength = length();
+		auto otherLength = strlen(other);
+		auto newLength = currentLength + otherLength;
 
-    MyString concatenated;
-    concatenated._s = static_cast<char*>(malloc(newLength + 1));
-    memcpy(concatenated._s, _s, currentLength);
-    memcpy(concatenated._s + currentLength, other, otherLength);
+		MyString concatenated;
+		concatenated._s = static_cast<char*>(malloc(newLength + 1));
+		memcpy(concatenated._s, _s, currentLength);
+		memcpy(concatenated._s + currentLength, other, otherLength);
     
-    operator = (concatenated);
+		operator = (concatenated);
+	}
     
     return *this;
 }
 
+/*
+	Adding validation on the input as to not perform construction procedures when not needed
+*/
 MyString MyString::operator + (const MyString& other) const
 {
-    auto copy = *this;
-    copy += other;
-    return copy;
+	if (!other.empty())
+	{
+		auto copy = *this;
+		copy += other;
+		return copy;
+	}
+
+	return *this;
 }
 
+/*
+	Added validation to other input as there are operations performed on it which can result
+	with application execution halt or unexpected termination.
+*/
 MyString& MyString::operator += (const MyString& other)
 {
-    auto currentLength = length();
-    auto otherLength = other.length();
-    auto newLength = currentLength + otherLength;
+	if (!other.empty())
+	{
+		auto currentLength = length();
+		auto otherLength = other.length();
+		auto newLength = currentLength + otherLength;
 
-    MyString concatenated;
-    concatenated._s = static_cast<char*>(malloc(newLength + 1));
-    memcpy(concatenated._s, _s, currentLength);
-    memcpy(concatenated._s + currentLength, other._s, otherLength);
+		MyString concatenated;
+		concatenated._s = static_cast<char*>(malloc(newLength + 1));
+		memcpy(concatenated._s, _s, currentLength);
+		memcpy(concatenated._s + currentLength, other._s, otherLength);
 
-    operator = (concatenated);
+		operator = (concatenated);
+	}
 
     return *this;
 }
